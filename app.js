@@ -33,7 +33,7 @@ app.get('/api/memesData', async (req, res)=> {
 
 
 app.listen(port, ()=> {
-    console.log();
+    console.log(`server is listening on port ${port}`);
 });
 
 
