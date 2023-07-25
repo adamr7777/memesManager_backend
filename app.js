@@ -41,34 +41,4 @@ app.listen(port, ()=> {
 
 
 
-////////////////////////////////////////////////////////////////////////////////////
-
-// const getMemesdata = async () => {
-//     try {
-//       const url = 'https://api.imgflip.com/get_memes';
-//       const response = await axios.get(url);
-//       const memes = response.data.data.memes;
-  
-//       // Convert the image data to base64 and add it to the memes array
-//       const memesWithBase64 = await Promise.all(
-//         memes.map(async (meme) => {
-//           const imageResponse = await axios.get(meme.url, {
-//             responseType: 'arraybuffer',
-//           });
-//           const imageData = Buffer.from(imageResponse.data, 'binary').toString('base64');
-//           return { ...meme, base64: `data:image/jpeg;base64,${imageData}` };
-//         })
-//       );
-//       console.log(memesWithBase64)
-  
-//       return memesWithBase64;
-//     } catch (error) {
-//       throw new Error('Error fetching memes data');
-//     }
-//   };
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
   
