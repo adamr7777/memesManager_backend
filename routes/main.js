@@ -5,7 +5,7 @@ const sendMemesData = require('../controllers/sendMemesData');
 const router = express.Router();
 
 
-router.get('/', sendMemesData);
+router.route('/').get(sendMemesData);
 
 
 module.exports = router;

@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const memesDataRouter = require('./routes/memesData')
+const mainRouter = require('./routes/main')
+const authRouter = require('./routes/auth')
 
 const app = express();
 const port = process.env.PORT || process.env.ALT_PORT;
@@ -10,8 +11,10 @@ const port = process.env.PORT || process.env.ALT_PORT;
 
 
 app.use(cors());
+app.use(express.json());
 app.use(express.static('public'));
-app.use('/api/memesData', memesDataRouter);
+app.use('/authorise', authRouter)
+app.use('/api/memesData', mainRouter);
 
 
 app.listen(port, ()=> {
