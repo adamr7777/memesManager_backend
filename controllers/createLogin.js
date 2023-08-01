@@ -1,23 +1,29 @@
-const jwt = require('jsonwebtoken');
-const {v4: uuid} = require('uuid');
-const fs = require('fs');
+const fsPromises = require('fs').promises;
+const bcrypt = require('bcrypt')
 const path = require('path');
+
+const usersDb = {
+    users: require('../model/users.json'),
+    setUsers: function(data) {this.users = data}
+};
+
+
+
+
 
 const createLogin = async (req, res)=> {
     const {username, password} = req.body;
     if(!username || !password) return //create custom error
-    const secret = uuid();
-    const secretData = `\n${username}=${secret}`;
-    try {
-        fs.appendFileSync(path.join(__dirname, '..', '.env'), secretData);
-        console.log('written');
-    }
-    catch(error) {
-        console.error(error);
-    };
+    const dublicate = usersDb.users.find((person)=> person.username === username);
+    if(dublicate) return res.status(409).json({msg: 'conflict'});
 
-    const token = jwt.sign({username, password}, secret, {expiresIn: '30'})
-    res.json({msg: 'user created', token});
+    
+        const encryptedPwd = await bcrypt.hash(password, 10);
+    
+        usersDb.setUsers([...usersDb.users, {username, encryptedPwd}]);
+        await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDb.users));
+        res.status(200).json({msg: 'success!'});
+    
 };
 
 module.exports = createLogin;
