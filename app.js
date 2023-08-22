@@ -16,9 +16,9 @@ const port = process.env.PORT || process.env.ALT_PORT;
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static('public'));
-app.use('/authorise', authRouter);
-app.use('/api/memesData', authorize);
+// app.use(express.static('public'));
+// app.use('/authorise', authRouter);
+// app.use('/api/memesData', authorize);
 app.use('/logout', logoutRouter);
 app.use('/api/memesData', mainRouter);
 
