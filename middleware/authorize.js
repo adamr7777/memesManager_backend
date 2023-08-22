@@ -1,14 +1,14 @@
 const jwt = require('jsonwebtoken');
 
 const authorize = (req, res, next)=> {
-    const authHead = req.headers.authorization;
-    console.log(authHead.startsWith('Bearer '));
-    if(!authHead || !authHead.startsWith('Bearer ')) return; //create a custom error
-    const token = authHead.split(' ')[1];
+    const token = req.cookies.jwt;
+    
+    if(!token) return res.sendStatus('401'); //create a custom error
     try{
         const decoded = jwt.verify(token, process.env.SECRET)
-        console.log(decoded);
-        console.log('yes');
+        const {username} = decoded.person;
+        req.user = {username}
+        console.log(req.user);
     }
     catch(error) {
         console.error(error);

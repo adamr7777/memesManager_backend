@@ -12,7 +12,7 @@ const usersDb = {
 
 
 const createLogin = async (req, res)=> {
-    const {username, password} = req.body;
+    const {username, password} = req.body.auth;
     if(!username || !password) return //create custom error
     const dublicate = usersDb.users.find((person)=> person.username === username);
     if(dublicate) return res.status(409).json({msg: 'conflict'});
