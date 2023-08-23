@@ -13,7 +13,7 @@ const loginUser = async (req, res)=> {
     if(!username || !password) return res.status(400).json({msg: 'username and password are required'}) //create custom error
 
     try {
-        const person = usersDb.users.find((person)=> person.username === username);
+        const person = usersDb.users.find((item)=> item.username === username);
         if(!person) return res.status(401).json({msg: 'user not found'});
         const passMatched = await bcrypt.compare(password, person.encryptedPwd);
         if (passMatched) {
