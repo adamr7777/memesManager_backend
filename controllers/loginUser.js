@@ -16,10 +16,12 @@ const loginUser = async (req, res)=> {
         const person = usersDb.users.find((item)=> item.username === username);
         if(!person) return res.status(401).json({msg: 'user not found'});
         const passMatched = await bcrypt.compare(password, person.encryptedPwd);
+        const personName = person.username;
         if (passMatched) {
-            const token = jwt.sign({person}, process.env.SECRET, {expiresIn: '1h'});
-            res.cookie('jwt', token, {httpOnly: true, sameSite: 'None', maxAge: 60 * 60 * 1000});
-            res.status(200).json({msg: `user ${username} is logged in.`});
+            const token = jwt.sign({username: personName}, process.env.SECRET, {expiresIn: '1h'});
+            // res.cookie('jwt', token, {httpOnly: true, sameSite: 'None', maxAge: 60 * 60 * 1000});
+            // res.status(200).json({msg: `user ${username} is logged in.`});
+            res.status(200).json({token});
         }
         else return res.status(401).json({msg: 'wrong password'});
     } catch(err) {

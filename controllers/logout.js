@@ -7,7 +7,6 @@ const usersDb = {
 
 const logout = (req, res)=> {
     try{
-        console.log(req.cookies);
         const token = req.cookies.jwt;
         if(!token) return res.sendStatus(204);
         res.clearCookie('jwt', { httpOnly: true, sameSite: 'None'});
