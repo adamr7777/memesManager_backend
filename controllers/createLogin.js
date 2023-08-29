@@ -15,11 +15,9 @@ const UserDb = require('../model/UsersData'); //Schema
 
 const createLogin = async (req, res)=> {
     const {username, password} = req.body.auth;
-    // console.log(username);
     if(!username || !password) return //create custom error
-    // const dublicate = usersDb.users.find((person)=> person.username === username); 
+    // const dublicate = usersDb.users.find((person)=> person.username === username); //change to Mongo
     const dublicate = await UserDb.findOne({username});
-    console.log(dublicate);
     if(dublicate) return res.status(409).json({msg: 'conflict'});
 
     
@@ -28,7 +26,7 @@ const createLogin = async (req, res)=> {
         // usersDb.setUsers([...usersDb.users, {username, encryptedPwd}]); 
         // await fsPromises.writeFile(path.join(__dirname, '..', 'model', 'users.json'), JSON.stringify(usersDb.users)); //change to Mongo
         try {
-            await UserDb.create({username, encryptedPwd});
+            await UserDb.create({username, encryptedPwd, userMemes: []});
         } catch(err) {
             console.error(err);
         };

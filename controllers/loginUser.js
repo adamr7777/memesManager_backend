@@ -18,7 +18,7 @@ const loginUser = async (req, res)=> {
         // const person = usersDb.users.find((item)=> item.username === username); 
         const person = await UserDb.findOne({username});
         if(!person) return res.status(401).json({msg: 'user not found'});
-        const passMatched = bcrypt.compare(password, person.encryptedPwd);
+        const passMatched = await bcrypt.compare(password, person.encryptedPwd);
         const personName = person.username;
         if (passMatched) {
             const token = jwt.sign({username: personName}, process.env.SECRET, {expiresIn: '1h'});
