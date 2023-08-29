@@ -17,7 +17,7 @@ const createLogin = async (req, res)=> {
     const {username, password} = req.body.auth;
     // console.log(username);
     if(!username || !password) return //create custom error
-    // const dublicate = usersDb.users.find((person)=> person.username === username); //change to Mongo
+    // const dublicate = usersDb.users.find((person)=> person.username === username); 
     const dublicate = await UserDb.findOne({username});
     console.log(dublicate);
     if(dublicate) return res.status(409).json({msg: 'conflict'});
