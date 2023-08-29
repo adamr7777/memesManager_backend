@@ -3,19 +3,22 @@ const bcrypt = require('bcrypt')
 const path = require('path');
 const jwt = require('jsonwebtoken');
 
-const usersDb = {
-    users: require('../model/users.json'),
-    setUsers: function(data) {this.users = data}
-};
+const UserDb = require('../model/UsersData');
+
+// const usersDb = {       //change to Mongo
+//     users: require('../model/users.json'),
+//     setUsers: function(data) {this.users = data}
+// };
 
 const loginUser = async (req, res)=> {
     const {username, password} = req.body.auth;
     if(!username || !password) return res.status(400).json({msg: 'username and password are required'}) //create custom error
 
     try {
-        const person = usersDb.users.find((item)=> item.username === username); //change to Mongo
+        // const person = usersDb.users.find((item)=> item.username === username); 
+        const person = await UserDb.findOne({username});
         if(!person) return res.status(401).json({msg: 'user not found'});
-        const passMatched = await bcrypt.compare(password, person.encryptedPwd);
+        const passMatched = bcrypt.compare(password, person.encryptedPwd);
         const personName = person.username;
         if (passMatched) {
             const token = jwt.sign({username: personName}, process.env.SECRET, {expiresIn: '1h'});
