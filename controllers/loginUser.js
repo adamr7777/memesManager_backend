@@ -24,7 +24,7 @@ const loginUser = async (req, res)=> {
             const token = jwt.sign({username: personName}, process.env.SECRET, {expiresIn: '1h'});
             // res.cookie('jwt', token, {httpOnly: true, sameSite: 'None', maxAge: 60 * 60 * 1000});
             // res.status(200).json({msg: `user ${username} is logged in.`});
-            res.status(200).json({token});
+            res.status(200).json({username: personName, token});
         }
         else return res.status(401).json({msg: 'wrong password'});
     } catch(err) {
