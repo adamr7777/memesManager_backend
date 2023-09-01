@@ -13,6 +13,10 @@ const UserSchema = new Schema(
             liked: Boolean,
             favorite: Boolean,
             comments: [String],
+        }],
+        secMemes: [{
+            comments: [String],
+            url: String
         }]
     });
 

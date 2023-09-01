@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -8,7 +7,8 @@ const connectDb = require('./config/connectDb');
 const mainRouter = require('./routes/main');
 const authRouter = require('./routes/auth');
 const authorize = require('./middleware/authorize');
-const logoutRouter = require('./routes/logout');
+const userDataRouter = require('./routes/userData');
+const deleteUserRouter = require('./routes/deleteUser');
 
 
 const app = express();
@@ -17,14 +17,14 @@ const port = process.env.PORT || process.env.ALT_PORT;
 connectDb();
 
 app.use(cors());
-app.use(express.urlencoded());
-app.use(express.json());
-app.use(cookieParser());
+app.use(express.json({limit: '50mb'}));
 app.use(express.static('public'));
 app.use('/authorise', authRouter);
 app.use('/api/memesData', authorize);
-app.use('/logout', logoutRouter);
 app.use('/api/memesData', mainRouter);
+app.use('/api/userData', userDataRouter);
+app.use('/api/deleteUser/', deleteUserRouter);
+
 
 
 
